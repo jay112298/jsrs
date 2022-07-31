@@ -11,7 +11,7 @@ app.use(express.static(staticPath))
 
 
 //Setting template engine for the project
-// app.set("view engine", "hbs")
+app.set("view engine", "hbs")
 
 app.get("/", (req, res) => {
     res.render("index")
