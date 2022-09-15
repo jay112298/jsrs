@@ -1,39 +1,41 @@
-const express = require('express')
-const app = express()
-const hbs = require('hbs')
-const path = require('path')
+require("dotenv").config();
+
+const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const port = process.env.PORT || 8000;
 
-//Template Path
-const template_path = path.join(__dirname, "../templates/views")
-const partials_path = path.join(__dirname, "../templates/partials")
+//My routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
-// View Engine Declaration
 
-app.set('view engine', 'hbs')
-app.set('views', template_path)
-hbs.registerPartials(partials_path)
+//DB Connection
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .then(() => {
+    console.log("DB CONNECTED");
+  });
 
-//Static Path
-app.use(express.static(path.join(__dirname, '../public')))
+//Middlewares
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
-//Routing
-app.get("/", (req, res)=>{
-    res.render("index")
-})
+//My Routes
+app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 
-app.get("/about", (req, res)=>{
-    res.render("about")
-})
 
-app.get("/weather", (req, res)=>{
-    res.render("weather")
-})
+//Starting a server
+app.listen(port, () => {
+  console.log(`app is running at ${port}`);
+});
 
-app.get("*", (req, res)=>{
-    res.render("404")
-})
-
-app.listen(port, ()=>{
-    console.log(`Listening to the port ${port}`)
-})
