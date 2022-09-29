@@ -32,7 +32,7 @@ exports.signup = (req, res) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer pk_prod_SPYX6W1P9N45PXKSTXW900F6B2WE",
+        Authorization: "Bearer " + process.env.COURIER,
       },
       body: JSON.stringify({
         message: {
