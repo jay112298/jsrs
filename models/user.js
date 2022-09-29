@@ -14,14 +14,42 @@ var userSchema = new mongoose.Schema(
       type: String,
       maxlength: 32,
       trim: true
+    },  
+    username: {
+      type: String,
+      required: true,
+      trim: true
     },
+    jsrsId: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      minlength: 3,
+      maxlength: 7,
+    },
+
+    age: Number,
+    
     email: {
       type: String,
       trim: true,
       required: true,
-      unique: true
+      unique: true,
+      lowercase: true
     },
-    userinfo: {
+    profession: {
+      type: String,
+      default: 'student',
+
+    },
+    phone: {
+      type: Number,
+      trim: true,
+      required: true
+    },
+    address: {
       type: String,
       trim: true
     },
@@ -34,7 +62,7 @@ var userSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    purchases: {
+    attendance: {
       type: Array,
       default: []
     }
